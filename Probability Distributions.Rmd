@@ -1,0 +1,96 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages("tidyverse")
+install.packages("readr")
+```
+
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+```{r}
+baseball <- read_csv("BigBash - Sheet1.csv")
+
+baseball
+```
+## Question 1: How many outings between 3 and 4 innings is there per player? predict how many outings is per player
+
+
+```{r}
+names(baseball)[4] <- "NOT_OUT"
+
+baseball
+
+Filters <- filter(baseball, INNINGS >= 3 & INNINGS <= 4)
+Filters
+
+baseball_one <- select(Filters, INNINGS, NOT_OUT, PLAYER)
+baseball_one
+
+ggplot(data = baseball_one, mapping = aes(x = INNINGS, y = NOT_OUT, fill = PLAYER )) + geom_bar(stat = "identity")  + labs(title = "Number of Innings Vs. Number of Outings", subtitle = "Baseball Statistics", x = "Innings", y = "Outings", caption = "Baseball Data set")
+
+#> How many outings between 3 and 4 innings is there per player? predict how many outings is per player
+Average <- mean(baseball_one$INNINGS)
+cat(Average, "\n")
+Standard_deviation <- sd(baseball_one$INNINGS)
+cat(Standard_deviation, "\n")
+Range <- range(baseball_one$INNINGS)
+cat(Range, "\n")
+Median <- median(baseball_one$INNINGS)
+cat(Median)
+```
+## Question 2: Which player has the highest Balls Faced With Runs greater or equal to 190.
+
+```{r}
+names(baseball)[8] <- "BALL_FACED"
+
+baseball
+
+Filters_two <- filter(baseball, RUNS >= 190 & BALL_FACED <= 230)
+Filters_two
+
+baseball_two <- select(Filters_two, RUNS, BALL_FACED, PLAYER)
+baseball_two
+
+ggplot(data = baseball_two, mapping = aes(x = RUNS, y = BALL_FACED, fill = PLAYER, bins = 10 )) + geom_bar(stat = "identity")  + labs(title = "Runs Vs. Balls Faced", subtitle = "Baseball Statistics", x = "RUNS", y = "Balls Faced", caption = "Baseball Data set")
+
+#> 
+Average_two <- mean(baseball_two$RUNS)
+cat(Average_two, "\n")
+Standard_deviation_two <- sd(baseball_two$RUNS)
+cat(Standard_deviation_two, "\n")
+Range_two <- range(baseball_two$RUNS)
+cat(Range_two, "\n")
+Median_two <- median(baseball_two$RUNS)
+cat(Median_two)
+```
+## Question 3: Which player has the highest Balls out With the number of runs being less than or equal to 220?
+```{r}
+names(baseball)[4] <- "NOT_OUT"
+
+baseball
+
+Filters_three <- filter(baseball, RUNS >= 190 & NOT_OUT <= 4)
+Filters_three
+
+baseball_three <- select(Filters_three, RUNS, NOT_OUT, PLAYER)
+baseball_three
+
+ggplot(data = baseball_three, mapping = aes(x = RUNS, y = NOT_OUT, fill = PLAYER, bins = 10 )) + geom_bar(stat = "identity")  + labs(title = "Runs Vs. Number of Outings", subtitle = "Baseball Statistics", x = "RUNS", y = "Number of Balls Out", caption = "Baseball Data set")
+
+#> 
+Average_three <- mean(baseball_three$NOT_OUT)
+cat(Average_three, "\n")
+Standard_deviation_three <- sd(baseball_three$NOT_OUT)
+cat(Standard_deviation_three, "\n")
+Range_three <- range(baseball_three$NOT_OUT)
+cat(Range_three, "\n")
+Median_three <- median(baseball_three$NOT_OUT)
+cat(Median_three)
+```
+
